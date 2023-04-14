@@ -7,7 +7,7 @@ async function bootstrap() {
   // enable CORS for a specific origin
   app.use(
     cors({
-      origin: 'http://localhost:5173',
+      origin: ['http://localhost:5173', 'https://wik-land-front.vercel.app'],
     }),
   );
   await app.listen(3000);
