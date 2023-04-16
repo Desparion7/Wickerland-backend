@@ -15,6 +15,7 @@ export class ProductsService {
     category,
     subcategory,
     search,
+    sort,
   }): Promise<{ products: Product[]; totalPages: number }> {
     // find all products
     let query = this.productModel.find();
@@ -35,6 +36,12 @@ export class ProductsService {
     // search products by name
     if (search !== 'undefined') {
       query = query.where('name', new RegExp(search, 'i'));
+    }
+    // sort products by price
+    if (sort === 'fromMax') {
+      query = query.sort({ price: -1 }); // sort by descending order of price
+    } else if (sort === 'fromMin') {
+      query = query.sort({ price: 1 }); // sort by ascending order of price
     }
 
     const products = await query

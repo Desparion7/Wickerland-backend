@@ -622,7 +622,7 @@ export const products = [
   // Pozostałe-transportety dla zwierząt po-2
   {
     pid: 'po-2-1',
-    name: 'Kwietnik wiklinowy, stojak na kwiaty ',
+    name: 'Wiklinowy transporter dla zwierząt',
     description:
       'Do zaoferowania mamy wykonany z pełnowartościowej mocnej wikliny kosz transportowy dla zwierzaka',
     category: 'pozostałe',

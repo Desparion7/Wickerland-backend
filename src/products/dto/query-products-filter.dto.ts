@@ -12,6 +12,9 @@ export class ProductsFilterDto {
   search: string;
 
   @IsOptional()
+  sort: string;
+
+  @IsOptional()
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
   pageNumber: number;
