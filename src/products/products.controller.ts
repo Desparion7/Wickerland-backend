@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductsFilterDto } from './dto/query-products-filter.dto';
 
@@ -9,5 +9,9 @@ export class ProductsController {
   @Get()
   getProducts(@Query() query: ProductsFilterDto) {
     return this.productsService.getProducts(query);
+  }
+  @Get('/:pid')
+  getProductByPid(@Param('pid') pid: string) {
+    return this.productsService.getProductByPid(pid);
   }
 }

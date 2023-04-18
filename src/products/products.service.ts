@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './interface/product.interface';
@@ -53,5 +53,12 @@ export class ProductsService {
     const totalPages = Math.ceil(count / pageSize);
 
     return { products, totalPages };
+  }
+  async getProductByPid(pid: string) {
+    const product = await this.productModel.findOne({ pid }).exec();
+    if (!product) {
+      throw new NotFoundException('nie znaleziono produktu o podanym id');
+    }
+    return { product };
   }
 }
