@@ -1,19 +1,7 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsString, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class ProductsFilterDto {
-  @IsOptional()
-  category: string;
-
-  @IsOptional()
-  subcategory: string;
-
-  @IsOptional()
-  search: string;
-
-  @IsOptional()
-  sort: string;
-
   @IsOptional()
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
@@ -33,4 +21,19 @@ export class ProductsFilterDto {
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
   max: number;
+
+  @IsOptional()
+  @IsString()
+  category: string;
+
+  @IsOptional()
+  @IsString()
+  subcategory: string;
+
+  @IsOptional()
+  @IsString()
+  search: string;
+
+  @IsOptional()
+  sort: string;
 }

@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 
-
 export const ProductsSchema = new mongoose.Schema({
   pid: { type: String, require: true },
   name: { type: String, require: true },
