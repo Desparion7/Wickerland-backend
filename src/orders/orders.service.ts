@@ -7,6 +7,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 @Injectable()
 export class OrdersService {
   constructor(@InjectModel('Orders') private ordersModel: Model<Order>) {}
+
   async createOrder(body: CreateOrderDto) {
     const order = new this.ordersModel(body);
     try {
@@ -18,6 +19,17 @@ export class OrdersService {
         success: false,
         error: 'Wystąpił błąd podczas zapisywania zamówienia.',
       };
+    }
+  }
+  async getOrder(id: string) {
+    const order = await this.ordersModel.findById(id);
+    if (!order) {
+      return {
+        success: false,
+        error: 'Nie odnaleziono zamówienia o podanym numerze.',
+      };
+    } else {
+      return order;
     }
   }
 }
