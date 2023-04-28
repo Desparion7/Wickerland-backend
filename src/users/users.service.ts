@@ -9,6 +9,7 @@ import { Model } from 'mongoose';
 import { User } from './interface/user.interface';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
 const saltRounds = 10;
 
@@ -59,5 +60,11 @@ export class UsersService {
     );
     // Send accessToken containing username
     return { accessToken, refreshToken };
+  }
+  async logout(res: Response) {
+    const cookies = res.req.cookies;
+    if (!cookies?.jwt) return res.sendStatus(204); //No content
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
+    return res.json({ message: 'Cookie wyczyszczone' });
   }
 }

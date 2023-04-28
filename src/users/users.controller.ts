@@ -34,4 +34,8 @@ export class UsersController {
 
     return response.json({ accessToken });
   }
+  @Post('/logout')
+  logout(@Res() res: Response) {
+    return this.usersService.logout(res);
+  }
 }
