@@ -3,6 +3,7 @@ import {
   ConflictException,
   NotFoundException,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -66,5 +67,31 @@ export class UsersService {
     if (!cookies?.jwt) return res.sendStatus(204); //No content
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
     return res.json({ message: 'Cookie wyczyszczone' });
+  }
+
+  async refresh(refreshToken: string): Promise<string> {
+    try {
+      const decoded: any = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+      );
+      const user = await this.userModel.findOne({ email: decoded.email });
+      if (!user) {
+        throw new UnauthorizedException('Brak autoryzacji');
+      }
+      const accessToken = jwt.sign(
+        {
+          UserInfo: {
+            id: user._id,
+            email: user.email,
+          },
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '1d' },
+      );
+      return accessToken;
+    } catch (error) {
+      throw new UnauthorizedException('Dostęp zabroniony');
+    }
   }
 }

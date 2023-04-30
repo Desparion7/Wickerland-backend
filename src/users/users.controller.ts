@@ -1,8 +1,17 @@
-import { Controller, Post, Body, Res, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Res,
+  Req,
+  UseInterceptors,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -37,5 +46,17 @@ export class UsersController {
   @Post('/logout')
   logout(@Res() res: Response) {
     return this.usersService.logout(res);
+  }
+  @Get('/refresh')
+  async refresh(@Req() req: Request, @Res() res: Response) {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) {
+      throw new UnauthorizedException('Brak autoryzacji');
+    }
+    const refreshToken = cookies.jwt;
+
+    const accessToken = await this.usersService.refresh(refreshToken);
+
+    res.json({ accessToken });
   }
 }
