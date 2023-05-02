@@ -1,4 +1,8 @@
 import * as mongoose from 'mongoose';
+const User = {
+  _id: mongoose.Schema.Types.ObjectId,
+  email: String,
+};
 
 const Product = {
   pid: String,
@@ -10,6 +14,10 @@ const Product = {
 };
 
 export const OrderSchema = new mongoose.Schema({
+  user: {
+    type: User,
+    required: false,
+  },
   name: { type: String, require: true },
   surname: { type: String, require: true },
   companyName: { type: String, require: false },

@@ -3,16 +3,24 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from './interface/order.interface';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { CustomRequest } from './orders.controller';
 
 @Injectable()
 export class OrdersService {
   constructor(@InjectModel('Orders') private ordersModel: Model<Order>) {}
 
-  async createOrder(body: CreateOrderDto) {
-    const order = new this.ordersModel(body);
+  async createOrder(body: CreateOrderDto, req: CustomRequest) {
     try {
-      await order.save();
-      return order;
+      if (req.currentUser) {
+        const user = req.currentUser;
+        const order = new this.ordersModel({ user, ...body });
+        await order.save();
+        return order;
+      } else {
+        const order = new this.ordersModel(body);
+        await order.save();
+        return order;
+      }
     } catch (error) {
       console.error('Błąd podczas zapisywania zamówienia:', error);
       return {
