@@ -59,8 +59,9 @@ export class UsersService {
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '7d' },
     );
+    const cart = user.cart;
     // Send accessToken containing username
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, cart };
   }
   async logout(res: Response) {
     const cookies = res.req.cookies;

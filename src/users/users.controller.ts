@@ -29,7 +29,7 @@ export class UsersController {
     @Body('password') password: string,
     @Res() response: Response,
   ) {
-    const { accessToken, refreshToken } = await this.usersService.signin(
+    const { accessToken, refreshToken, cart } = await this.usersService.signin(
       email,
       password,
     );
@@ -41,7 +41,7 @@ export class UsersController {
       maxAge: 7 * 24 * 60 * 60 * 100, // cookie expiry: set to match rT
     });
 
-    return response.json({ accessToken });
+    return response.json({ accessToken, cart });
   }
   @Post('/logout')
   logout(@Res() res: Response) {
