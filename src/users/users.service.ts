@@ -11,6 +11,8 @@ import { User } from './interface/user.interface';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
+import { CustomRequest } from 'src/orders/orders.controller';
+import { CartDto } from './dto/cart.dto';
 
 const saltRounds = 10;
 
@@ -94,5 +96,12 @@ export class UsersService {
     } catch (error) {
       throw new UnauthorizedException('Dostęp zabroniony');
     }
+  }
+  async updateCart(body: CartDto, req: CustomRequest) {
+    const user = await this.userModel.findById(req.currentUser._id);
+    const cart = body.cart;
+    user.cart = cart;
+    await user.save();
+    return;
   }
 }

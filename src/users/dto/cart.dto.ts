@@ -1,8 +1,5 @@
-export interface User {
-  _id: string;
-  email: string;
-  password?: string;
-  cart?: {
+export class CartDto {
+  cart: {
     pid: string;
     name: string;
     amount: number;

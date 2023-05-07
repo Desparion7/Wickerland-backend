@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
   Body,
   Res,
   Req,
@@ -12,6 +13,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
 import { Response, Request } from 'express';
+import { CartDto } from './dto/cart.dto';
+import { CustomRequest } from 'src/orders/orders.controller';
 
 @Controller('users')
 export class UsersController {
@@ -58,5 +61,10 @@ export class UsersController {
     const accessToken = await this.usersService.refresh(refreshToken);
 
     res.json({ accessToken });
+  }
+  @Patch('/cart')
+  async updateCart(@Body() body: CartDto, @Req() req: CustomRequest) {
+    const cart = await this.usersService.updateCart(body, req);
+    return cart;
   }
 }
