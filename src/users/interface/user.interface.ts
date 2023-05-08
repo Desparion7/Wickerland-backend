@@ -11,4 +11,11 @@ export interface User {
     price: number;
     img: string[];
   };
+  wishlist?: {
+    pid: string;
+    name: string;
+    category: string;
+    price: number;
+    img: string[];
+  };
 }

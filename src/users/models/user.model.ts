@@ -9,10 +9,17 @@ const Product = {
   price: Number,
   img: [String],
 };
+const Wishlist = {
+  pid: String,
+  name: String,
+  price: Number,
+  img: [String],
+  category: String,
+};
 
 export const UserSchema = new mongoose.Schema({
   email: { type: String, require: true },
   password: { type: String, require: true },
   cart: { type: Array, default: [Product] },
-  wishlist: { type: Array, default: [Product] },
+  wishlist: { type: Array, default: [Wishlist] },
 });

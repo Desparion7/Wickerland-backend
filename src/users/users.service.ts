@@ -13,6 +13,7 @@ import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
 import { CustomRequest } from 'src/orders/orders.controller';
 import { CartDto } from './dto/cart.dto';
+import { WishlistDto } from './dto/wishlist.dto';
 
 const saltRounds = 10;
 
@@ -62,8 +63,9 @@ export class UsersService {
       { expiresIn: '7d' },
     );
     const cart = user.cart;
+    const wishlist = user.wishlist;
     // Send accessToken containing username
-    return { accessToken, refreshToken, cart };
+    return { accessToken, refreshToken, cart, wishlist };
   }
   async logout(res: Response) {
     const cookies = res.req.cookies;
@@ -100,8 +102,16 @@ export class UsersService {
   async updateCart(body: CartDto, req: CustomRequest) {
     const user = await this.userModel.findById(req.currentUser._id);
     const cart = body.cart;
+    console.log(cart);
     user.cart = cart;
     await user.save();
-    return;
+    return cart;
+  }
+  async updateWishList(body: WishlistDto, req: CustomRequest) {
+    const user = await this.userModel.findById(req.currentUser._id);
+    const wishlist = body.wishlist;
+    user.wishlist = wishlist;
+    await user.save();
+    return wishlist;
   }
 }

@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
 import { Response, Request } from 'express';
 import { CartDto } from './dto/cart.dto';
+import { WishlistDto } from './dto/wishlist.dto';
 import { CustomRequest } from 'src/orders/orders.controller';
 
 @Controller('users')
@@ -32,10 +33,8 @@ export class UsersController {
     @Body('password') password: string,
     @Res() response: Response,
   ) {
-    const { accessToken, refreshToken, cart } = await this.usersService.signin(
-      email,
-      password,
-    );
+    const { accessToken, refreshToken, cart, wishlist } =
+      await this.usersService.signin(email, password);
     // create scure cookie with refresh token
     response.cookie('jwt', refreshToken, {
       httpOnly: true, // accessible only by web server
@@ -44,7 +43,7 @@ export class UsersController {
       maxAge: 7 * 24 * 60 * 60 * 100, // cookie expiry: set to match rT
     });
 
-    return response.json({ accessToken, cart });
+    return response.json({ accessToken, cart, wishlist });
   }
   @Post('/logout')
   logout(@Res() res: Response) {
@@ -66,5 +65,10 @@ export class UsersController {
   async updateCart(@Body() body: CartDto, @Req() req: CustomRequest) {
     const cart = await this.usersService.updateCart(body, req);
     return cart;
+  }
+  @Patch('/wishlist')
+  async updateWishList(@Body() body: WishlistDto, @Req() req: CustomRequest) {
+    const wishlist = await this.usersService.updateWishList(body, req);
+    return wishlist;
   }
 }
