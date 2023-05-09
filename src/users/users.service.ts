@@ -102,7 +102,6 @@ export class UsersService {
   async updateCart(body: CartDto, req: CustomRequest) {
     const user = await this.userModel.findById(req.currentUser._id);
     const cart = body.cart;
-    console.log(cart);
     user.cart = cart;
     await user.save();
     return cart;
