@@ -71,4 +71,12 @@ export class UsersController {
     const wishlist = await this.usersService.updateWishList(body, req);
     return wishlist;
   }
+  @Post('/reset')
+  async forgotPassword(@Body() body: { email: string }) {
+    await this.usersService.sendResetPasswordEmail(body.email);
+    return {
+      message:
+        'Email zawierający link do ustawienia nowego hasła został wysłany na podany adres email.',
+    };
+  }
 }

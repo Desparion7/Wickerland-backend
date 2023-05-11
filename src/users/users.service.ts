@@ -4,6 +4,8 @@ import {
   NotFoundException,
   BadRequestException,
   UnauthorizedException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -112,5 +114,25 @@ export class UsersService {
     user.wishlist = wishlist;
     await user.save();
     return wishlist;
+  }
+  async sendResetPasswordEmail(email: string) {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) {
+      throw new HttpException(
+        'Brak użytkownika o podanym adresie e-mail',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    // generate reset token
+    const token = jwt.sign(
+      { id: user._id.toString() },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: '15min',
+      },
+    );
+    // link for testing
+    // const link = `http://localhost:5173/resetpassword/#access_token=${token}`;
+    const link = `https://gym-app-pi-three.vercel.app/resetpassword/#access_token=${token}`;
   }
 }
