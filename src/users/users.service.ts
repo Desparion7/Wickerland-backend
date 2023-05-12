@@ -135,8 +135,8 @@ export class UsersService {
       },
     );
     // link for testing
-    const link = `http://localhost:5173/nowehasło/#access_token=${token}`;
-    // const link = `https://wik-land-front.vercel.app/nowehasło/#access_token=${token}`;
+    // const link = `http://localhost:5173/nowehasło/#access_token=${token}`;
+    const link = `https://wik-land-front.vercel.app/nowehasło/#access_token=${token}`;
 
     // send email with reset link
     const transporter = nodemailer.createTransport({
