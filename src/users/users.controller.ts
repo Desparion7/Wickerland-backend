@@ -8,6 +8,7 @@ import {
   Req,
   UseInterceptors,
   UnauthorizedException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -72,11 +73,20 @@ export class UsersController {
     return wishlist;
   }
   @Post('/reset')
-  async forgotPassword(@Body() body: { email: string }) {
+  async forgotPassword(@Body() body: { email: string }, @Res() res: Response) {
     await this.usersService.sendResetPasswordEmail(body.email);
-    return {
-      message:
-        'Email zawierający link do ustawienia nowego hasła został wysłany na podany adres email.',
-    };
+    res.status(HttpStatus.OK).json({
+      message: `Email resetujący hasło został wysłany na adres ${body.email}.`,
+    });
+  }
+  @Patch('/reset')
+  async newPassword(
+    @Body() body: { token: string; password: string },
+    @Res() res: Response,
+  ) {
+    await this.usersService.setNewPassword(body);
+    res.status(HttpStatus.OK).json({
+      message: `Hasło zostało zmienione.`,
+    });
   }
 }
