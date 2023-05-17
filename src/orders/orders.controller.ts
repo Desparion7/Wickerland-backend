@@ -15,6 +15,10 @@ export class OrdersController {
   createNewOrder(@Body() body: CreateOrderDto, @Req() req: CustomRequest) {
     return this.orderService.createOrder(body, req);
   }
+  @Get()
+  getUserOrders(@Req() req: CustomRequest) {
+    return this.orderService.getUserOrders(req);
+  }
   @Get('/:id')
   getSingleOrder(@Param('id') id: string) {
     return this.orderService.getOrder(id);

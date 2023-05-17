@@ -29,6 +29,11 @@ export class OrdersService {
       };
     }
   }
+  async getUserOrders(req: CustomRequest) {
+    const user = req.currentUser;
+    const orders = await this.ordersModel.find({ 'user._id': user._id });
+    return orders;
+  }
   async getOrder(id: string) {
     const order = await this.ordersModel.findById(id);
     if (!order) {
