@@ -30,7 +30,7 @@ export const OrderSchema = new mongoose.Schema({
   message: { type: String, required: false },
   paymentMethod: { type: String, required: true },
   deliveryMethod: { type: String, required: true },
-  price: { type: String, require: true },
+  price: { type: Number, require: true },
   date: { type: Date, require: true },
   products: {
     type: [Product],
