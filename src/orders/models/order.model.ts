@@ -11,6 +11,7 @@ const Product = {
   category: String,
   qty: Number,
   price: Number,
+  img: [String],
 };
 
 export const OrderSchema = new mongoose.Schema({
@@ -30,6 +31,7 @@ export const OrderSchema = new mongoose.Schema({
   paymentMethod: { type: String, required: true },
   deliveryMethod: { type: String, required: true },
   price: { type: String, require: true },
+  date: { type: Date, require: true },
   products: {
     type: [Product],
     required: true,

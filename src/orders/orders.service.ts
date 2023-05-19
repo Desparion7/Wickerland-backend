@@ -13,7 +13,9 @@ export class OrdersService {
     try {
       if (req.currentUser) {
         const user = req.currentUser;
-        const order = new this.ordersModel({ user, ...body });
+        const date = new Date();
+        date.setHours(date.getHours() + 2);
+        const order = new this.ordersModel({ user, ...body, date });
         await order.save();
         return order;
       } else {
