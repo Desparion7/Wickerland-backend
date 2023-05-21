@@ -33,7 +33,9 @@ export class OrdersService {
   }
   async getUserOrders(req: CustomRequest) {
     const user = req.currentUser;
-    const orders = await this.ordersModel.find({ 'user._id': user._id });
+    const orders = await this.ordersModel
+      .find({ 'user._id': user._id })
+      .sort({ date: -1 });
     return orders;
   }
   async getOrder(id: string) {
