@@ -31,12 +31,23 @@ export class OrdersService {
       };
     }
   }
-  async getUserOrders(req: CustomRequest) {
+  async getUserOrders(req: CustomRequest, page: string) {
+    const pageSize = 10;
     const user = req.currentUser;
-    const orders = await this.ordersModel
+    // all user order
+    const allOrder = await this.ordersModel
       .find({ 'user._id': user._id })
       .sort({ date: -1 });
-    return orders;
+    // only order for current page
+    const orders = await this.ordersModel
+      .find({ 'user._id': user._id })
+      .sort({ date: -1 })
+      .skip((parseInt(page) - 1) * pageSize)
+      .limit(pageSize)
+      .exec();
+
+    const totalPages = Math.ceil((allOrder.length + 1) / pageSize);
+    return { orders, totalPages };
   }
   async getOrder(id: string) {
     const order = await this.ordersModel.findById(id);
