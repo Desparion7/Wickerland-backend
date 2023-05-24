@@ -16,6 +16,7 @@ import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
 import { Response, Request } from 'express';
 import { CartDto } from './dto/cart.dto';
 import { WishlistDto } from './dto/wishlist.dto';
+import { AddressDto } from './dto/address.dto';
 import { CustomRequest } from 'src/orders/orders.controller';
 
 @Controller('users')
@@ -61,6 +62,16 @@ export class UsersController {
     const accessToken = await this.usersService.refresh(refreshToken);
 
     res.json({ accessToken });
+  }
+  @Get('/address')
+  async getAddress(@Req() req: CustomRequest) {
+    const address = await this.usersService.getAddress(req);
+    return address;
+  }
+  @Patch('/address')
+  async updateAddress(@Body() body: AddressDto, @Req() req: CustomRequest) {
+    const address = await this.usersService.updateAddress(body, req);
+    return address;
   }
   @Patch('/cart')
   async updateCart(@Body() body: CartDto, @Req() req: CustomRequest) {

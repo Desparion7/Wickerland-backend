@@ -1,25 +1,19 @@
 import * as mongoose from 'mongoose';
 
-// const Product = {
-//   pid: String,
-//   name: String,
-//   amount: Number,
-//   category: String,
-//   qty: Number,
-//   price: Number,
-//   img: [String],
-// };
-// const Wishlist = {
-//   pid: String,
-//   name: String,
-//   price: Number,
-//   img: [String],
-//   category: String,
-// };
+const Address = {
+  name: String,
+  surname: String,
+  companyName: String,
+  street: String,
+  postcode: String,
+  city: String,
+  phone: String,
+};
 
 export const UserSchema = new mongoose.Schema({
   email: { type: String, require: true },
   password: { type: String, require: true },
   cart: { type: Array, default: [] },
   wishlist: { type: Array, default: [] },
+  address: { type: Address, default: {} },
 });

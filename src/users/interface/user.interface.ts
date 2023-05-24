@@ -18,4 +18,13 @@ export interface User {
     price: number;
     img: string[];
   };
+  address?: {
+    name: string;
+    surname: string;
+    companyName?: string;
+    street: string;
+    postcode: string;
+    city: string;
+    phone: string;
+  };
 }

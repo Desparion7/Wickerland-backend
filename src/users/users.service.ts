@@ -19,6 +19,7 @@ import { CartDto } from './dto/cart.dto';
 import { WishlistDto } from './dto/wishlist.dto';
 import * as nodemailer from 'nodemailer';
 import { JwtPayload } from 'jsonwebtoken';
+import { AddressDto } from './dto/address.dto';
 
 const saltRounds = 10;
 
@@ -103,6 +104,26 @@ export class UsersService {
     } catch (error) {
       throw new UnauthorizedException('Dostęp zabroniony');
     }
+  }
+  async getAddress(req: CustomRequest) {
+    const user = await this.userModel.findById(req.currentUser._id);
+    const address = user.address;
+    return address;
+  }
+  async updateAddress(body: AddressDto, req: CustomRequest) {
+    const user = await this.userModel.findById(req.currentUser._id);
+    const address = {
+      name: body.name,
+      surname: body.surname,
+      companyName: body.company,
+      street: body.street,
+      postcode: body.postcode,
+      city: body.city,
+      phone: body.phone,
+    };
+    user.address = address;
+    await user.save();
+    return user;
   }
   async updateCart(body: CartDto, req: CustomRequest) {
     const user = await this.userModel.findById(req.currentUser._id);

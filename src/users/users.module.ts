@@ -13,6 +13,8 @@ import { UserIdMiddleware } from 'src/middlewares/userid-middleware';
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserIdMiddleware).forRoutes('users/cart', 'users/wishlist');
+    consumer
+      .apply(UserIdMiddleware)
+      .forRoutes('users/cart', 'users/wishlist', 'users/address');
   }
 }
