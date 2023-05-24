@@ -54,8 +54,11 @@ export class UsersController {
   @Get('/refresh')
   async refresh(@Req() req: Request, @Res() res: Response) {
     const cookies = req.cookies;
+
     if (!cookies?.jwt) {
-      throw new UnauthorizedException('Brak autoryzacji');
+      res.status(HttpStatus.OK).json({
+        message: `Brak tokena`,
+      });
     }
     const refreshToken = cookies.jwt;
 
