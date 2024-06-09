@@ -38,7 +38,7 @@ export class MessagesService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       throw new InternalServerErrorException(
-        'Wystąpił problem podczas wysyłania emaila resetującego hasło',
+        'Wystąpił problem podczas wysyłania emaila',
       );
     }
     return message;
